@@ -14,67 +14,188 @@ SCSS:
   - timing function: ease-out
 10. Add improvements wherever you see a need for one
 */
-$font-family: Lato, sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+$font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+  "Segoe UI Symbol";
+$color-black: #000000;
+$button-color: #eeeeee;
+$background-color: #ffffff;
+$body-background-color: #f5f5f5;
+$font-color: #000000;
+$container-border-color:#eeeeee;
+$font-size : 16px;
+
 
 @mixin not-mobile {
-  @media (min-width: 768px) { @content; }
+  @media (min-width: 768px) {
+    @content;
+  }
 }
 
 @mixin mobile {
-  @media (max-width: 767px) { @content; }
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin transition($property) {
+  transition-duration: .3s;
+  transition-delay: .1s;
+  transition-timing-function: ease-out;
+  transition-property: $property;
 }
 
 @mixin button() {
   text-decoration: none;
   padding: 10px 20px;
-  border: 1px solid #000;
-  background: #eee;
+  border: 1px solid $color-black;
+  background: $button-color;
   display: inline-block;
-  color: #000;
+  color: $font-color;
   margin-top: 20px;
-  
+
   &:hover {
-    
+    @include transition(background-color);
   }
 }
-
 %social-link {
   width: 40px;
   height: 40px;
   display: block;
 
   &:hover {
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
-  }
-}
-
-.dialog {
-  &.is-hidden {
-  // display: none;
-  }
-  
-  .container {
-    background: #fff;
-    color: #000;
-    position: fixed;
-    top: 50%;
-    border: 1px solid #aaa;
-    height: auto;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
-
-    > div {
-      padding-bottom: 20px;
-      border-bottom: 1px solid #000;
-    }
+    box-shadow: 0 20px 30px rgba($color-black, 0.2);
   }
 }
 
 body {
-  background: #f5f5f5;
-  padding: 20px;
-  font-size: 20px;
-  font-family: $font-family;
-  color: #000;
+@include not-mobile{
+  font-size: calc(16px + 20%);
 }
+  overflow: hidden;
+  background: $body-background-color;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  font-size: $font-size ;
+  position: relative;
+  font-family: $font-family;
+  color: $font-color;
+}
+
+html {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+.social-links {
+
+  ul {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    font-family: $font-family;
+  }
+
+  .social-link {
+    @extend %social-link;
+    z-index: 0;
+    border-radius: 50%;
+    box-shadow: 2px 2px 2px rgb(165, 165, 165);
+    margin: 20px 20px;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+    cursor: pointer;
+    background-color: $background-color;
+    &:hover {
+      @include transition(all);
+    }
+
+    &--youtube {
+      background: url(https://www.magneticpoint.com/themes/custom/mp/assets/images/ic-youtube.svg)
+        center no-repeat;
+      filter: invert(21%) sepia(97%) saturate(6285%) hue-rotate(359deg)
+        brightness(100%) contrast(123%);
+      box-shadow: 2px 2px 2px rgb(165, 165, 165);
+    }
+    &--facebook {
+      background: url(https://www.magneticpoint.com/themes/custom/mp/assets/images/ic-facebook.svg)
+        center no-repeat;
+      filter: invert(37%) sepia(30%) saturate(4228%) hue-rotate(189deg)
+        brightness(102%) contrast(90%);
+      box-shadow: 2px 2px 2px rgb(165, 165, 165);
+    }
+    &[data-url="linkedin.com"] {
+      background: url(https://www.magneticpoint.com/themes/custom/mp/assets/images/ic-linkedin.svg)
+        center no-repeat;
+      filter: invert(26%) sepia(86%) saturate(1882%) hue-rotate(197deg)
+        brightness(90%) contrast(94%);
+    }
+  }
+}
+
+.button {
+  @include button;
+  @include mobile {
+    display: block;
+  }
+  &:hover {
+    background-color: rgba($color-black, 0.5);
+  }
+
+&--ok {
+@include mobile{
+  order: 1;
+    }
+  }
+}
+
+.dialog {
+  @include transition(visibility);
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+  background-color: rgba($color-black, 0.5);
+  visibility: visible;
+
+  &.is-hidden {
+    visibility: hidden;
+
+    .container {
+      top: 150%;
+    }
+  }
+}
+
+  .container {
+    @include mobile {
+      display: flex;
+      flex-direction: column;
+    }
+    @include transition(top);
+    background: $background-color;
+    color: $color-black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0 auto;
+    transform: translate(-50%, -50%);
+    border: 1px solid $container-border-color;
+    height: auto;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 20px 30px rgba($color-black, 0.2);
+
+    > div {
+      padding-bottom: 20px;
+      border-bottom: 1px solid $color-black;
+    }
+  }
