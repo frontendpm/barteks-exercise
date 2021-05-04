@@ -1,0 +1,80 @@
+/*
+SCSS:
+1. Use Lato font, with a sans-serif fallback; bonus points: fallback to system fonts
+2. Use already defined mixins and extends; you may add code to them
+3. Fonts for the question in dialog should be 16px tall;
+4. All fonts on devices with viewports wider than 768px should be 20% bigger.
+5. Use variables for all of the colors.
+6. Add a minimalistic hover effect for buttons and icons - design is up to you.
+7. Opening dialog should move the page content behind a translucent overlay
+8. On mobile devices the "Cancel" button should be displayed above the "OK" button
+9. Add transitions to all hover effects with these parameters:
+  - duration: 300ms
+  - delay: .1s
+  - timing function: ease-out
+10. Add improvements wherever you see a need for one
+*/
+$font-family: Lato, sans-serif;
+
+@mixin not-mobile {
+  @media (min-width: 768px) { @content; }
+}
+
+@mixin mobile {
+  @media (max-width: 767px) { @content; }
+}
+
+@mixin button() {
+  text-decoration: none;
+  padding: 10px 20px;
+  border: 1px solid #000;
+  background: #eee;
+  display: inline-block;
+  color: #000;
+  margin-top: 20px;
+  
+  &:hover {
+    
+  }
+}
+
+%social-link {
+  width: 40px;
+  height: 40px;
+  display: block;
+
+  &:hover {
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.dialog {
+  &.is-hidden {
+  // display: none;
+  }
+  
+  .container {
+    background: #fff;
+    color: #000;
+    position: fixed;
+    top: 50%;
+    border: 1px solid #aaa;
+    height: auto;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+
+    > div {
+      padding-bottom: 20px;
+      border-bottom: 1px solid #000;
+    }
+  }
+}
+
+body {
+  background: #f5f5f5;
+  padding: 20px;
+  font-size: 20px;
+  font-family: $font-family;
+  color: #000;
+}
