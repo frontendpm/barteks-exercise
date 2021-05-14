@@ -14,14 +14,33 @@ SCSS:
   - timing function: ease-out
 10. Add improvements wherever you see a need for one
 */
-$font-family: Lato, sans-serif;
+$font-family: Lato, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+$facebook-blue: #3b5998;
+$linkedin-blue: #0e76a8;
+$youtube-red: #c4302b;
+$ok-button-color: #08D465;
+$cancel-button-color: #FA0125;
+$font-size-mobile: 20px; 
+$font-size-question: 16px;
+
 
 @mixin not-mobile {
-  @media (min-width: 768px) { @content; }
+  @media (min-width: 768px) {
+    @content;
+  }
 }
 
 @mixin mobile {
-  @media (max-width: 767px) { @content; }
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin hover-transition($transition-name) {
+  transition: $transition-name 300ms ease-out 0.1s;
 }
 
 @mixin button() {
@@ -32,41 +51,114 @@ $font-family: Lato, sans-serif;
   display: inline-block;
   color: #000;
   margin-top: 20px;
-  
-  &:hover {
-    
+
+  &:hover.button--ok {
+    background-color: $ok-button-color;
+    @include hover-transition(background-color);   
   }
+  
+  &:hover.button--cancel {
+    background-color: $cancel-button-color;
+    @include hover-transition(background-color);
+  }
+  
+}
+
+.social-links {
+  li {
+    @extend %social-link;
+    float: right;
+  }
+
 }
 
 %social-link {
   width: 40px;
   height: 40px;
+  border-radius: 50%;
+  margin: 0 20px 0 20px;
   display: block;
+  background-image: url(https://www.magneticpoint.com/themes/custom/mp/assets/images/ic-linkedin.svg);
+  background-color: $linkedin-blue;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-size: 0;
+  cursor: pointer;
+
+  &.social-link--youtube {
+    background-image: url(https://www.magneticpoint.com/themes/custom/mp/assets/images/ic-youtube.svg);
+    background-color: $youtube-red;
+  }
+
+  &.social-link--facebook {
+    background-image: url(https://www.magneticpoint.com/themes/custom/mp/assets/images/ic-facebook.svg);
+    background-color: $facebook-blue;
+  }
 
   &:hover {
+    @include hover-transition(transform);
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-0.5rem);
   }
 }
 
 .dialog {
+
   &.is-hidden {
-  // display: none;
+    display: none;
   }
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(128, 128, 128, 0.5);
   
-  .container {
+  .container {   
+    @include mobile {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: column;
+      justify-content: center;
+      
+      .button--ok {
+        order: 2;
+      }
+      
+      .button--cancel {
+        order: 1;
+      }
+    }
+    
+    a {
+        @include button;  
+    }
+  
     background: #fff;
     color: #000;
-    position: fixed;
+    position: relative;
     top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
     border: 1px solid #aaa;
     height: auto;
+    margin: 0 20px 0 20px;
     padding: 20px;
     text-align: center;
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
 
-    > div {
+    >div {
       padding-bottom: 20px;
       border-bottom: 1px solid #000;
+    }
+    
+    .question{
+      font-size: $font-size-question;
+    
+      @include not-mobile {
+      font-size: $font-size-question + $font-size-question *0.2;
+    }
     }
   }
 }
@@ -74,7 +166,11 @@ $font-family: Lato, sans-serif;
 body {
   background: #f5f5f5;
   padding: 20px;
-  font-size: 20px;
+  font-size: $font-size-mobile;
   font-family: $font-family;
   color: #000;
+  
+  @include not-mobile {
+    font-size: $font-size-mobile + $font-size-mobile *0.2;
+  }
 }
